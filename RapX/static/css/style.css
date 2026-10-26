@@ -1,0 +1,401 @@
+/* FitnessCh landing page styles */
+
+/* ---------- Color and typography tokens ---------- */
+:root {
+  --bg: #0B0B14;
+  --bg-edge: #000000;
+  --text: #FFFFFF;
+  --text-muted: #C9C9D1;
+  --headline-top: #FFFFFF;
+  --headline-bot: #B5B5BD;
+  --accent: #2CFF2C;        /* button */
+  --accent-ring: #2DFF2D;   /* avatar rings */
+  --btn-text: #000000;
+  --line: #FFFFFF;
+
+  --font-heading: "Poppins", "Inter", system-ui, sans-serif;
+  --font-body: "Poppins", "Inter", system-ui, sans-serif;
+}
+
+/* ---------- Reset ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+/* ---------- Background and base typography ---------- */
+body {
+  background: var(--bg) radial-gradient(ellipse at center, var(--bg) 55%, var(--bg-edge) 100%);
+  color: var(--text);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  overflow: hidden; /* no scrollbar on desktop */
+}
+
+/* ---------- Stage: full-viewport 16:9 canvas ---------- */
+.stage {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  /* Keep a 16:9 shape: on very tall windows the stage grows to at least 16:9. */
+  min-height: 56.25vw; /* 9 / 16 of the full width */
+  margin: 0 auto;
+  overflow: hidden;
+}
+/* ---------- Navigation bar (dark rounded pill) ---------- */
+.nav {
+  position: absolute;
+  top: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(1100px, calc(100% - 80px));
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  padding: 12px 14px 12px 40px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #4a4a4a 0%, #2b2b2b 55%, #161616 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    0 10px 30px rgba(0, 0, 0, 0.5);
+  z-index: 4;
+}
+
+.nav__links {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+/* Thin yellow-green dividers between links */
+.nav__links a + a::before {
+  content: "";
+  display: inline-block;
+  width: 1px;
+  height: 14px;
+  margin: 0 22px;
+  background: var(--accent);
+  opacity: 0.8;
+  vertical-align: middle;
+}
+
+.nav__links a {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #e8e8e8;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.nav__links a:hover {
+  color: var(--accent);
+}
+
+/* JOIN NOW pill button */
+.nav__join {
+  margin-left: 8px;
+  padding: 11px 28px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--btn-text);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  box-shadow: 0 0 18px color-mix(in srgb, var(--accent) 45%, transparent);
+  transition: filter 0.15s ease;
+}
+
+.nav__join:hover {
+  filter: brightness(1.08);
+}
+
+/* Hamburger menu button */
+.nav__menu {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: #e8e8e8;
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+
+.nav__menu:hover {
+  color: var(--accent);
+}
+/* ---------- Hero headline ---------- */
+.headline {
+  position: absolute;
+  top: 110px;
+  left: 0;
+  right: 0;
+  margin: 0;
+  text-align: center;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 104px;
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  background: linear-gradient(180deg, var(--headline-top), var(--headline-bot));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  z-index: 1;
+}
+
+/* ---------- Model image ---------- */
+.model {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  z-index: 0; /* sit behind all text and UI as a full-page background */
+  display: block;
+}
+
+/* ---------- Social column ----------
+   Vertical axis at x = 68px (left: 68px + translateX(-50%) centers the column).
+   Layout math (desktop, stage top = viewport top):
+     .social top ............ 285px
+     YouTube   icon  285–305  center 295
+     gap 50
+     Facebook  icon  355–375  center 365
+     gap 50
+     Instagram icon  425–445  center 435
+     gap 50 → next flex item would start at 495
+   The line's top edge must be at 465px, so it is pulled up by 30px
+   (495 − 30 = 465) with margin-top: -30px. Line runs 465–525px.          */
+.social {
+  position: absolute;
+  left: 68px;
+  top: 285px;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 50px;
+  color: var(--text);
+  z-index: 3;
+}
+
+.social a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.social svg {
+  width: 20px;
+  height: 20px;
+  display: block;
+}
+
+.social__line {
+  width: 1px;
+  height: 60px;
+  background: var(--line);
+  margin-top: -30px; /* 495px − 30px = 465px top edge; see math above */
+}
+/* ---------- Tagline ---------- */
+.tagline {
+  position: absolute;
+  right: 67px; /* 1024 - 697 - 260 = 67px from the right edge */
+  top: 355px;
+  margin: 0;
+  max-width: 260px;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--text-muted);
+  z-index: 3;
+}
+/* ---------- Client stats ---------- */
+.stats {
+  position: absolute;
+  left: 60px;
+  top: 590px;
+  z-index: 3;
+}
+
+.stats__avatars {
+  display: flex;
+}
+
+.stats__avatars img {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 2px solid var(--accent-ring);
+  object-fit: cover;
+  margin-left: -16px;
+}
+
+.stats__avatars img:first-child {
+  margin-left: 0;
+}
+
+.stats__text {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin: 6px 0 0;
+}
+
+.stats__num {
+  font-family: var(--font-heading);
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--text);
+}
+
+.stats__label {
+  font-size: 14px;
+  color: var(--text);
+}
+/* ---------- BOOK A CLASS button and status message ---------- */
+.btn-book {
+  position: absolute;
+  right: 119px; /* 1024 - 755 - 150 = 119px from the right edge */
+  bottom: 95px; /* keeps the button near the lower-right corner at any height */
+  width: 150px;
+  height: 44px;
+  border-radius: 22px;
+  background: var(--accent);
+  color: var(--btn-text);
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  border: 0;
+  cursor: pointer;
+  box-shadow: 0 0 24px rgba(44, 255, 44, 0.55); /* fallback for browsers without color-mix() */
+  box-shadow: 0 0 24px color-mix(in srgb, var(--accent) 55%, transparent);
+  z-index: 3;
+}
+
+.btn-book:hover {
+  box-shadow: 0 0 32px rgba(44, 255, 44, 0.75);
+  box-shadow: 0 0 32px color-mix(in srgb, var(--accent) 75%, transparent);
+}
+
+.cta__msg {
+  position: absolute;
+  right: 119px;
+  bottom: 70px;
+  width: 150px;
+  min-height: 16px;
+  margin: 0;
+  font-size: 12px;
+  line-height: 16px;
+  text-align: center;
+  color: var(--text-muted);
+  z-index: 3;
+}
+
+/* ---------- Narrow fallback (<1024px) ----------
+   Below the 1024px design canvas the absolute pixel layout no longer fits.
+   Switch the stage to a single scrolling column and let every section flow
+   in reading order: nav → headline → model → tagline → stats → cta.          */
+@media (max-width: 1023px) {
+  body {
+    overflow: auto;
+  }
+
+  .stage {
+    width: 100%;
+    height: auto;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    padding: 24px 20px;
+    box-sizing: border-box;
+  }
+
+  /* Drop the absolute pixel positioning for every direct child of the stage */
+  .stage > * {
+    position: static;
+    transform: none;
+  }
+
+  .nav {
+    order: 0;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .headline {
+    order: 1;
+    font-size: 48px;
+  }
+
+  .model {
+    order: 2;
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+    margin: 0 auto;
+  }
+
+  .tagline {
+    order: 3;
+    max-width: none;
+  }
+
+  .stats {
+    order: 4;
+  }
+
+  /* .btn-book and .cta__msg are nested inside .cta, so the `.stage > *`
+     reset above does not reach them; put them back into normal flow here. */
+  .cta {
+    order: 5;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .btn-book,
+  .cta__msg {
+    position: static;
+    transform: none;
+  }
+
+  .cta__msg {
+    text-align: left;
+  }
+
+  .social {
+    display: none;
+  }
+}
